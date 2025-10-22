@@ -12,7 +12,7 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Echo the user message."""
     await update.message.reply_text(update.message.text)
 
-application = ApplicationBuilder.token("TOKEN").build()
+application = ApplicationBuilder.token("8148916624:AAFDrszZwYR955VZyD3PWswEjLdamnxjyzk").build()
 
 
 
