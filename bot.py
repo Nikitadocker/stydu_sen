@@ -1,6 +1,6 @@
 from orca.orca import start
 from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, MessageHandler, filters
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 
 # Define a command handler. These usually take the two arguments update and context.
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -12,9 +12,9 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Echo the user message."""
     await update.message.reply_text(update.message.text)
 
-application = ApplicationBuilder.token("8148916624:AAFDrszZwYR955VZyD3PWswEjLdamnxjyzk").build()
 
-
+# Create the Application and pass it your bot's token.
+application = Application.builder().token("8148916624:AAFDrszZwYR955VZyD3PWswEjLdamnxjyzk").build()
 
 
 
