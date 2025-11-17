@@ -1,9 +1,14 @@
+import os
+from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 from openai import OpenAI
 
+# Load environment variables from .env file
+load_dotenv()
+
 # Initialize OpenAI client
-client = OpenAI(api_key="my_key")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Define a command handler. These usually take the two arguments update and context.
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -36,7 +41,7 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # Create the Application and pass it your bot's token.
-application = Application.builder().token("my_token").build()
+application = Application.builder().token(os.getenv("TELEGRAM_BOT_TOKEN")).build()
 
 application.add_handler(CommandHandler(["start"], start))
 
