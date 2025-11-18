@@ -39,12 +39,15 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text(f"Ошибка: {str(e)}")
 
+def main() -> None:
+    # Create the Application and pass it your bot's token.
+    application = Application.builder().token(os.getenv("TELEGRAM_BOT_TOKEN")).build()
 
-# Create the Application and pass it your bot's token.
-application = Application.builder().token(os.getenv("TELEGRAM_BOT_TOKEN")).build()
+    application.add_handler(CommandHandler(["start"], start))
 
-application.add_handler(CommandHandler(["start"], start))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 
-application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
+    application.run_polling(allowed_updates=Update.ALL_TYPES)
 
-application.run_polling(allowed_updates=Update.ALL_TYPES)
+if __name__ == "__main__":
+    main()
