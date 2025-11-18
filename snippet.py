@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+"""
+Telegram Bot with OpenAI integration.
+
+This bot uses OpenAI API to respond to user messages intelligently.
+"""
 import os
 from dotenv import load_dotenv
 from telegram import Update
