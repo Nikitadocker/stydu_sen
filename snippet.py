@@ -4,6 +4,7 @@ Telegram Bot with OpenAI integration.
 
 This bot uses OpenAI API to respond to user messages intelligently.
 """
+import  logging
 import os
 from dotenv import load_dotenv
 from telegram import Update
@@ -12,6 +13,15 @@ from openai import OpenAI
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Enable logging
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
+# set higher logging level for httpx to avoid all GET and POST requests being logged
+logging.getLogger("httpx").setLevel(logging.WARNING)
+
+logger = logging.getLogger(__name__)
 
 # Initialize OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
