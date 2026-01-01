@@ -69,6 +69,7 @@ async def generate_image(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     status_message = await update.message.reply_text("🎨 Генерирую изображение, подождите...")
     
     try:
+        #Логер который показывает что функция генерации сообщения вызвана
         logger.info(f"Generating image with prompt: {prompt}")
         
         # Generate image using DALL-E
@@ -106,7 +107,11 @@ async def generate_image(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send user message to OpenAI and return response."""
+    user = update.effective_user
     user_message = update.message.text
+    
+    # Добавляем логгер для отслеживания входящих сообщений
+    logger.info(f"User {user.first_name} (ID: {user.id}) sent message: {user_message}")
     
     try:
         # Send message to OpenAI
@@ -123,10 +128,12 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         
         # Reply to user with AI response
         await update.message.reply_text(ai_response.strip())
-        
+
+        # выводит сообщение о том что бот не завис и обрабатывает сообщения
         logger.info("Message processed successfully")
         
     except Exception as e:
+        #Логгер который будет содержать техническое описание ошибки
         logger.error(f"Error processing message: {str(e)}")
         await update.message.reply_text(f"Ошибка: {str(e)}")
 
