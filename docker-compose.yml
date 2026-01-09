@@ -8,9 +8,39 @@ services:
     env_file:
       - .env
     volumes:
-      - ./logs:/app/logs
+      - bot_logs:/app/logs
     logging:
-      driver: "json-file"
+      driver: "json-file" # обернуть логи в формат json
       options:
         max-size: "10m"
         max-file: "3"
+
+# http://loki-local:3100
+  loki-local:
+    image: grafana/loki:2.7.0
+
+  grafana:
+    image: grafana/grafana:10.2.0
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - loki-local
+
+  promtail:
+    image: grafana/promtail:2.9.3
+    volumes:
+      - bot_logs:/logs
+      - ./promtail:/etc/promtail
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki-local
+
+
+# Named volumes
+volumes:
+  bot_logs:
+  grafana_data:
