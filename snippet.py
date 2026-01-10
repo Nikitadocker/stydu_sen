@@ -17,7 +17,13 @@ load_dotenv()
 
 # Enable logging
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+    format='timestamp=%(asctime)s logger=%(name)s level=%(levelname)s msg="%(message)s"',
+    datefmt='%Y-%m-%dT%H:%M:%S',
+    level=logging.INFO,
+    handlers=[
+        logging.FileHandler("./logs/bot.log"),
+        logging.StreamHandler()
+    ]
 )
 # set higher logging level for httpx to avoid all GET and POST requests being logged
 logging.getLogger("httpx").setLevel(logging.WARNING)
