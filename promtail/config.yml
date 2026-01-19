@@ -8,3 +8,16 @@ scrape_configs:
           - localhost
         labels:
           __path__: /logs/bot.log
+          job: telegram-bot
+    pipeline_stages:
+      # Парсим ваш формат логов с key=value структурой
+      - regex:
+          expression: 'timestamp=(?P<timestamp>\S+) logger=(?P<logger>\S+) level=(?P<level>\S+) msg="(?P<message>.*)"'
+      # Добавляем labels
+      - labels:
+          level: level
+          logger: logger
+      # Парсим timestamp
+      - timestamp:
+          source: timestamp
+          format: '2006-01-02T15:04:05'
